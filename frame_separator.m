@@ -1,5 +1,4 @@
-function frames = frame_separator(s, lap, fv)
-  frame_size = lap * fv;
+function frames = frame_separator(s, frame_size)
   frames = s(1:frame_size);
   frames = recursive_frame(frames, floor(1+frame_size/2), s, frame_size);
 end

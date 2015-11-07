@@ -5,22 +5,35 @@ function main(filepath)
   filter_amount = 33;
   % Size of fast fourier transform
   fft_size = 256;
-  fbanks = filterbanks(300,fs/2, filter_amount, fft_size);
+  fbanks = filterbanks(0,fs/2, filter_amount, fft_size);
+  frame_size = frame_lap * fs;
   s = pre_emphasis_filter(y);
-  frames = frame_separator(s, frame_lap, fs);
-  for i = 1 : rows(frames)
-    fourier_freq = fft(frames(i,:).*hamming(frame_lap * fs));
+  frames = frame_separator(s, frame_size);
 
+  for i = 1 : rows(frames)
+    fourier_freq = fft(frames(i,:).* hamming(frame_size)');
+    power_spec = periodogram(fourier_freq, frame_size);
     % Energy
     for fb = 1 : rows(fbanks)
-    	energy = 0;
     	filterbank = fbanks(fb,:);
-    	for fftpoint = 1 : columns(filterbank)
-    		energy += filterbank(fftpoint)*fourier_freq(fftpoint);
-    	end
-    	filterenergies(fb)=energy;
+      energy = 0;
+      for k = 1:length(filterbank)
+    	  energy += filterbank(k) * power_spec(k);
+      end
+      filterenergies(fb) = energy;
     end
-
-    mel_freq(i, :) = mel_frequency(fourier_freq);
+    loged_energy = log(filterenergies);
+    K = length(loged_energy);
+    for n = 1:12
+      mel_cepstral_coefficients(i,n) = 0;
+      for k = 1:K
+        mel_cepstral_coefficients(i,n) += loged_energy(k)* cos(n * (k-0.5) * pi/K);
+      end
+    end
   end
+  hold on;
+  for i = 1:rows(mel_cepstral_coefficients)
+    plot(mel_cepstral_coefficients(i, :));
+  end
+  hold off;
 end
