@@ -11,7 +11,7 @@ function main(filepath)
   filter_amount = 26;
   % Size of fast fourier transform
   fft_size = 256;
-  fbanks = filterbanks(0,fs/2, filter_amount, fft_size);
+  fbanks = filterbanks(300,fs/2, filter_amount, fft_size);
   frame_size = frame_lap * fs;
   s = pre_emphasis_filter(y);
   frames = frame_separator(s, frame_size);
