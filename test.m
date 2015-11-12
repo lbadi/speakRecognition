@@ -10,9 +10,9 @@ function test(training_path,test_path)
 		keyboard
 		mel_coef = mfcc_extract(complete_path);
 		vecCode(:,:,i-2) = vq(mel_coef, vector_quantity);
-		% Armo un cell con los nombres 
+		% Armo un cell con los nombres
 		names{i-2} = substr(file_name, 1, -6);
 	end
 	keyboard;
-	
+
 end
