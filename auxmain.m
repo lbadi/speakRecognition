@@ -24,28 +24,42 @@ function auxmain(filepath)
     period_freq(i,:) = periodogram(fourier_freq(i,:), frame_size);
   end
   % Se aplican los filtros
-  for i = 1 : fft_size/2
-    filter_freq(i,:) = fbanks(:,i) * fourier_freq(i,fft_size/2)';
-    % filter_freq(i,:) = fbanks(i,:) * period_freq(i,:)';
-  end
+  % for i = 1 : fft_size/2
+  %   % filter_freq(i,:) = fbanks(:,i) * fourier_freq(i,fft_size/2)';
+  %   % Aplicado al periodogram
+  %   filter_freq(i,:) = fbanks(:,i) * period_freq(i,fft_size/2)';
+  % end
+  filter_freq = period_freq(:,1:fft_size/2) * fbanks';
+  mel_cepstral_coefficients = zeros(rows(frames), 26);
   for i = 1 : rows(frames)
     % Los 12 primeros
-    for n = 1:12
-
-    loged_filter = log(filter_freq);
-    K = length(loged_filter);
-      mel_cepstral_coefficients(i,n) = 0;
-      for k = 1:K
-        % Preguntar por que se da esto, claramente algo estamos haciendo mal
-        if(abs(loged_filter(k)) == inf)
-          continue;
-        end
-        mel_cepstral_coefficients(i,n) += loged_filter(k)* cos(n * (k-0.5) * pi/K);
-      end
-    end
-    % El ultimo
+    % for n = 1:12
+    %   loged_filter = log(filter_freq);
+    %   K = length(loged_filter);
+    %   for k = 1:K
+    %     % Preguntar por que se da esto, claramente algo estamos haciendo mal
+    %     % if(abs(loged_filter(k)) == inf)
+    %     %   continue;
+    %     % end
+    %     mel_cepstral_coefficients(i,n) += loged_filter(k)* cos(n * (k-0.5) * pi/K);
+    %   end
+    % end
+    mel_cepstral_coefficients(i,1:12) = melcalc(filter_freq(i,:));
+    % El ultimo coeficiente
     mel_cepstral_coefficients(i,13) = logged_energy(frames);
   end
+  % Calculo los deltas y se los agrego a la lista de coeficientes.    
+  for i = 1 : rows(frames)
+    delta = deltas(mel_cepstral_coefficients(i,:));
+    mel_cepstral_coefficients(i,14:26) = delta;
+    % for j= 1:13
+    %   keyboard;
+    %   mel_cepstral_coefficients(i,13+j) = delta(j) ;
+    % end
+  end
+  % Preguntar por que los coef para cada frame me dan iguales¿DOnde estara el error?
+  keyboard;
+
   %
   % Vectores codigo
   %

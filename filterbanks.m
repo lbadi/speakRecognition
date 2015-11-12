@@ -1,18 +1,17 @@
 function fbank = filterbanks(min,max,amount,fftsize)
 
-mmax = mel_frequency(max);
+mel_max = mel_frequency(max);
+mel_min = mel_frequency(min);
 
-mmin = mel_frequency(min);
-
-step = (mmax-mmin)/(amount+1);
+step = (mel_max-mel_min)/(amount+1);
 
 k = 1;
-for num = mmin:step:mmax
+for num = mel_min:step:mel_max
   f(k) = floor((fftsize+1)*mel_inv(num)/(max*2));
   k = k+1;
 end
 
-% fbank = zeros(amount,fftsize/2+1);
+% fbank = zeros(amount,fftsize/2);
 
 % for j=1:amount
 %     for i=f(j):f(j+1)
@@ -25,7 +24,7 @@ end
 % end
 
 for m = 2:amount+1
-  for k = 1:(fftsize/2+1)
+  for k = 1:(fftsize/2)
     if(k < f(m-1))
       fbank(m,k) = 0;
     elseif(f(m-1) <= k && f(m) >= k)
