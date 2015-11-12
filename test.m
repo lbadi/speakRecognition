@@ -1,4 +1,5 @@
 function test(training_path, test_path)
+	more off;
 
 	%
 	% Los paths tienen que venir en formato {directory_name}/, ej: /home/nicolas/MNA/training/
@@ -34,11 +35,11 @@ function test(training_path, test_path)
 		[m, min_index] = min(test_codes);
 
 		results{i-2} = names{min_index};
+		printf('%s => %s\n', substr(file_name, 1, -5), results{i-2})
 		if(strcmp(results{i-2},substr(file_name, 1, -5)))
 			total++;
 		end
 	end
 	percentaje = 100 * total/(testing_quantity-2);
-	disp('El porcentaje de aciertos es: '); disp(percentaje); disp('%');
-
+	printf('El porcentaje de aciertos es: %f\n', percentaje)
 end
