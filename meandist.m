@@ -9,7 +9,7 @@
 %
 % * dist = distorsión media
 %
-function dist = meandist(data,code)
+function dist = meandist(data, code)
 [dim,n] = size(data);
 [dim,nvector] = size(code);
 dist = 0;

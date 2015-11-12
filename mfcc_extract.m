@@ -49,8 +49,8 @@ function mel_cepstral_coefficients =  mfcc_extract (filepath)
     % El ultimo coeficiente
     mel_cepstral_coefficients(i,13) = logged_energy(frames);
   end
-  keyboard;
-  % Calculo los deltas y se los agrego a la lista de coeficientes.    
+
+  % Calculo los deltas y se los agrego a la lista de coeficientes.
   for i = 1 : rows(frames)
     mel_cepstral_coefficients(i,14:26) = deltas(mel_cepstral_coefficients(i,:));
   end
