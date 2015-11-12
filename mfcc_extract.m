@@ -14,6 +14,8 @@ function mel_cepstral_coefficients =  mfcc_extract (filepath)
   frame_size = frame_lap * fs;
   s = pre_emphasis_filter(y);
   frames = frame_separator(s, frame_size);
+  % Hamming window
+  frames = ham(frames,frame_size);
   % FFT para cada frame
   for i = 1 : rows(frames)
     fourier_freq(i,:) = fft(frames(i,:),fft_size);
@@ -47,12 +49,10 @@ function mel_cepstral_coefficients =  mfcc_extract (filepath)
     % El ultimo coeficiente
     mel_cepstral_coefficients(i,13) = logged_energy(frames);
   end
+  keyboard;
   % Calculo los deltas y se los agrego a la lista de coeficientes.    
   for i = 1 : rows(frames)
     mel_cepstral_coefficients(i,14:26) = deltas(mel_cepstral_coefficients(i,:));
   end
-  %
-  % Vectores codigo
-  %
 
 end

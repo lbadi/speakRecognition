@@ -2,7 +2,6 @@ function ham_frames = ham(frames, N)
   for i = 1:rows(frames)
       ham_frames(i, :) = frames(i, :) .* window(N);
   end
-
 end
 
 

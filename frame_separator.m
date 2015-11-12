@@ -5,7 +5,6 @@ end
 
 
 function frames = recursive_frame(frames, index, s, frame_size)
-	keyboard;
   if(index + frame_size >= length(s))
     return;
   else
