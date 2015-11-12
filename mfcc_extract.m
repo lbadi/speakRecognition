@@ -1,6 +1,5 @@
-function auxmain(filepath)
-
-
+% Funcion que extrae los coeficientes mel-cepstrales dinamicos y estaticos.
+function mel_cepstral_coefficients =  mfcc_extract (filepath)
   %
   %  Calculo de los coeficientes mel-cepstrales
   %
@@ -50,16 +49,8 @@ function auxmain(filepath)
   end
   % Calculo los deltas y se los agrego a la lista de coeficientes.    
   for i = 1 : rows(frames)
-    delta = deltas(mel_cepstral_coefficients(i,:));
-    mel_cepstral_coefficients(i,14:26) = delta;
-    % for j= 1:13
-    %   keyboard;
-    %   mel_cepstral_coefficients(i,13+j) = delta(j) ;
-    % end
+    mel_cepstral_coefficients(i,14:26) = deltas(mel_cepstral_coefficients(i,:));
   end
-  % Preguntar por que los coef para cada frame me dan iguales¿DOnde estara el error?
-  keyboard;
-
   %
   % Vectores codigo
   %
