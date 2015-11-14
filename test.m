@@ -13,6 +13,7 @@ function test(training_path, test_path)
 		file_name = char(files(i));
 		complete_path = strcat(training_path, file_name);
 		mel_coef = mfcc_extract(complete_path);
+
 		vector_codes(:,:, i-2) = vq(mel_coef', vector_quantity);
 
 		% Armo un cell con los nombres
