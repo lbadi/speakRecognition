@@ -26,8 +26,9 @@ function test(training_path, test_path)
 	files = readdir(test_path);
 	testing_quantity = length(files);
 	vector_quantity = 16;
-	for i = 3:testing_quantity
-		file_name = char(files(i));
+
+	for i = randperm(testing_quantity - 2)
+		file_name = char(files(i+2));
 		complete_path = strcat(test_path, file_name);
 		mel_coef = mfcc_extract(complete_path);
 		for j = 3:training_quantity
@@ -35,9 +36,9 @@ function test(training_path, test_path)
 		end
 		[m, min_index] = min(test_codes);
 
-		results{i-2} = names{min_index};
-		printf('%s => %s\n', substr(file_name, 1, -5), results{i-2})
-		if(strcmp(results{i-2},substr(file_name, 1, -5)))
+		results{i} = names{min_index};
+		printf('%s => %s\n', substr(file_name, 1, -5), results{i})
+		if(strcmp(results{i},substr(file_name, 1, -5)))
 			total++;
 		end
 	end

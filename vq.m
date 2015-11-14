@@ -9,6 +9,10 @@ function code = vq(data,nvector)
 	%distorsion epsilon->determina cu ́anto itero
 	deps = 1e-10;
 	[dim,n] = size(data);
+
+	%randomizo
+	% data = data(randperm(dim), :);
+
 	%code vectors
 	code = zeros(dim,nvector);
 	%clusters
